@@ -1,0 +1,22 @@
+name: Pull Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you want to trigger the workflow on
+
+jobs:
+  pull-docker-image:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Login to GitHub Container Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Pull Docker image
+      run: docker pull ghcr.io/deepjyoti30/ytmdl-web:latest
+
+    # Add more steps here to perform any necessary actions with the pulled image.
